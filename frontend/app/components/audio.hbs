@@ -2,6 +2,12 @@
     <audio src="{{this.currentSong}}">
 
     </audio>
+
+    <button id="reveal"
+        {{on "click" this.reveal}}>
+        &gt;
+    </button>
+
     <button 
     {{on "click" this.playMusic}}
     >{{this.pauseOrPlay}}</button>

@@ -1,12 +1,38 @@
-main {
+$width: 100px;
+$padding: 20px;
+$left: -($width + $padding);
 
+
+main {
+    margin-left: $padding;
 }
 
 #music-component {
-    background-color: red;
-    
-    margin: 20px;
-    padding: 20px;
-    
+    width: $width;
+    padding: $padding;
+
+    position: absolute;
+    left: $left;
+    top: 0;
+    bottom: 0;
+    //right: 0;
+
+    transition: left ease-in-out 0.5s;
+
+    #reveal {
+        position: absolute;
+        top: 40%;
+        bottom: 40%;
+        right: 0px;
+        width: 20px;
+        //left: $left + 20px;
+        opacity: 0.8;
+    }
+
+    &:hover {
+        left: 0;
+        
+    }
 }
+
 
