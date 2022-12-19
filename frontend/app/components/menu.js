@@ -5,7 +5,6 @@ import { service } from '@ember/service';
 import { transition } from '@ember/routing';
 import { get } from '@ember/object';
 
-
 export default class AudioComponent extends Component {
   @tracked pauseOrPlay = 'Play';
 
@@ -15,11 +14,9 @@ export default class AudioComponent extends Component {
 
   get currentSong() {
     //let document.querySelector('audio');
-    
-    return get(this.menuService, 'music'); // = this.globals.music;
-   
-  }
 
+    return this.menuService.music; // = this.globals.music;
+  }
 
   @action
   playMusic() {
