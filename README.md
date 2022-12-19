@@ -1,4 +1,4 @@
-# semantiCTF
+# semantikeys
 A game-ish-thing inspired by text-based adventures, games like Uplink, and old websites.
 
 ## Weird clarification
