@@ -4,7 +4,7 @@ export default class MenuServiceService extends Service {
     _music = '';
 
     get music() {
-        return 'audio/music/' + this._music + '.mp3';
+        return '/audio/music/' + this._music + '.mp3';
     }
 
     set music(val) {

@@ -3,13 +3,22 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { transition } from '@ember/routing';
+import { get } from '@ember/object';
+
 
 export default class AudioComponent extends Component {
   @tracked pauseOrPlay = 'Play';
 
   @service router;
   @service menuService;
-  @tracked currentSong = this.menuService.music; // = this.globals.music;
+  //@tracked currentSong = get(this.menuService, 'music'); // = this.globals.music;
+
+  get currentSong() {
+    //let document.querySelector('audio');
+    
+    return get(this.menuService, 'music'); // = this.globals.music;
+   
+  }
 
 
   @action
