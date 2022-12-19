@@ -3,13 +3,12 @@
 
     </audio>
 
-    <button id="reveal"
-        {{on "click" this.reveal}}>
+    <button id="reveal" type="button" {{on "click" this.reveal}}>
         &gt;
     </button>
 
     <button 
-    {{on "click" this.playMusic}}
+    type="button" {{on "click" this.playMusic}}
     >{{this.pauseOrPlay}}</button>
 
     {{yield}}
