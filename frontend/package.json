@@ -69,5 +69,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "xterm": "^5.1.0"
   }
 }

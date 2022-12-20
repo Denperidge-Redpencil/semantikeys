@@ -9,6 +9,11 @@ module.exports = function (defaults) {
       persist: false,
       optimizer: false,
     },
+    sassOptions: {
+      includePaths: [
+        'node_modules/xterm/css'
+      ]
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated

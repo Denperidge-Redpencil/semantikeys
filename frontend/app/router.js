@@ -17,4 +17,7 @@ Router.map(function () {
     this.route('pt6', { path: 'key' });
   });
   this.route('navigation');
+  this.route('cbrpnk', function () {
+    this.route('pc');
+  });
 });
