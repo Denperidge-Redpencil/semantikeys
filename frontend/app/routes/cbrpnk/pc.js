@@ -47,12 +47,15 @@ export default class CbrpnkPcRoute extends Route {
     e.target.style.display = "none";
     document.getElementById('screen').style.display = 'block';
 
+    let password = 'L@k3';
+
     
     // START Imported directly from the bash-terminal repo
     var input = document.getElementById('input')
     var output = document.getElementById('output')
 
     let writedate1 = Date.parse('2022-12-20T19:32:44.947Z');
+    let sysdate = Date.parse('2000-01-01T04:20:41.532Z');
 
     var emulator = bashEmulator({
       workingDirectory: '/',
@@ -66,15 +69,71 @@ export default class CbrpnkPcRoute extends Route {
           type: 'dir',
           modified: Date.now()
         },
-        '/home/john/journal.txt': {
+        '/home/aly/message1': {
           type: 'file',
           modified: Date.now(),
-          content: 'this is private!'
+          content: `
+          I've updated the password to the name of the season 2 protagonist of my favourite show!
+
+
+          ---
+
+          Shows:
+          -
+
+          ---
+
+          My passwords are "too weak". I have to "use more symbols". Whatever, I'll just replace
+          `
         },
-        '/home/john': {
+
+        '/home/aly/message1': {
+          type: 'file',
+          modified: Date.now(),
+          content: `
+          You have to see this show! Absolutely my all time favourite. Like, I even changed my password to the name of the season 2 protagonist!
+          Well, the metallic one. There's multiple prot-just watch the show!
+          `
+        },
+        '/home/aly/link.url': {
+          type: 'file',
+          modified: Date.now(),
+          content: 'https://www.imdb.com/list/ls566913827/'
+        },
+        '/home/aly': {
           type: 'dir',
           modified: Date.now()
         },
+
+        '/sys': {
+          type: 'dir',
+          modified: sysdate
+        },
+        '/sys/motd': {
+          type: 'dir',
+          modified: sysdate
+        },
+
+        '/sys/motd/passwords.txt': {
+          type: 'file',
+          modified: sysdate,
+          content: `
+            Due to a recent bug, we had to rebuild our password system.
+            It's now mandatory to use at least one symbol.
+            If you don't have any ideas on how to incorporate them to your projects, see below for examples.
+            
+            Example:
+            
+            - i --> !
+            - a --> @
+            - e --> 3
+            
+            Have a nice day!
+            - Admins
+            
+            P.S. Does anyone know what 'meta' or 'leetspeak' means? Please contact me if so.`
+        },
+        
 
         '/home/cat': {
           type: 'dir',
@@ -189,10 +248,10 @@ export default class CbrpnkPcRoute extends Route {
 
     emulator.commands.login = function(env, args) {
       console.log(args)
-      if (args[0] != 'infinitytrain') {
+      if (args[0] != 'aly') {
         env.error('Incorrect username.');
         env.exit(1);
-      } else if (args[1] != '8tr@!n') {
+      } else if (args[1] != password) {
         env.error('Incorrect password.');
         env.exit(1);
 
