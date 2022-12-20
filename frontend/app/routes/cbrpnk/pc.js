@@ -3,8 +3,6 @@ import { action } from '@ember/object';
 
 import bashEmulator from 'bash-emulator';
 
-import { Terminal } from 'xterm';
-import LocalEchoController from 'local-echo';
 
 export default class CbrpnkPcRoute extends Route {
   model() {
