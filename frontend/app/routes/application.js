@@ -11,6 +11,7 @@ export default class ApplicationRoute extends Route {
       console.log(transition.to.name);
       //this.menuService.music = transition.to.name;
       set(this.menuService, 'music', transition.to.name);
+      //document.querySelector('#music-component audio').src = `/audio/music/${transition.to.name}.mp3`;
     });
   }
 }

@@ -1,7 +1,8 @@
 import Service from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class MenuServiceService extends Service {
-  _music = '';
+  @tracked _music = '';
 
   get music() {
     return '/audio/music/' + this._music + '.mp3';
