@@ -5,13 +5,25 @@ import { set } from '@ember/object';
 import { action } from '@ember/object';
 
 function checkNav(currentRouteName) {
-  let renderNav = true;
+  let renderNav;
   if (
     currentRouteName.startsWith('thirteen') ||
     currentRouteName.startsWith('start') ||
     currentRouteName.startsWith('navigation')
   ) {
     renderNav = false;
+  }
+  else {
+    renderNav = [];
+    let routes = currentRouteName.split('.');
+    for (let i = 0; i < routes.length; i++) {
+      let routecomponents = routes.slice(0, i+1);
+      renderNav.push( { 
+        route: routecomponents.join('.'),
+        text: routes[i]
+      });
+    }
+
   }
 
   return renderNav;

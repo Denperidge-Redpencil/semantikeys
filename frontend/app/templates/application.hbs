@@ -3,7 +3,13 @@
 <Menu/>
 <main>
     {{#if @model.nav}}
-        Return to the <LinkTo @route="navigation">map</LinkTo>
+        <nav>
+            Return to the <LinkTo @route="navigation">map</LinkTo>
+
+            {{~#each @model.nav as |nav|~}}
+                /<LinkTo @route="{{nav.route}}">{{nav.text}}</LinkTo>
+            {{~/each~}}
+        </nav>
     {{/if}}
     {{outlet}}
 </main>
