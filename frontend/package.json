@@ -71,6 +71,7 @@
     "edition": "octane"
   },
   "dependencies": {
+    "local-echo": "github:wavesoft/local-echo",
     "xterm": "^5.1.0"
   }
 }
