@@ -1,17 +1,26 @@
 {{page-title "Pt3"}}
-<ImageSpotLink
-    @id="pt3"
-    @image="/images/thirteen.pt3.jpg"
-    @route="thirteen.pt3"
-    @x1="20%"
-    @x2="22%"
-    @y1="40%"
-    @y2="40%"
-    @width="20%"
-    @height="60%"
-/>
+
+{{svg-jar "thirteen.pt3"}}
+
+<LinkTo id="navigate" @route="thirteen.pt4"></LinkTo>
 
 
+<style>
+    svg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
+    #click {
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    document.getElementById('click').addEventListener('click', () => {
+        document.getElementById('navigate').click();
+    })
+</script>
 
 {{outlet}}

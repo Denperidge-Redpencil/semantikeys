@@ -1,0 +1,27 @@
+{{page-title "Pt4"}}
+
+{{#each @model.array as |value|}}
+    <h3 {{animate 'fadeInDown' delay=value.delay}}>{{value.title}}</h3>
+{{/each}}
+
+<LinkTo id="cont" @route="thirteen.pt5" />
+<LinkTo id="back" @route="thirteen.pt3" />
+
+<style>
+    #cont {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+</style>
+
+<script>
+    setTimeout(function() {
+        document.getElementById('cont').style.display = 'initial';
+    }, 4000);
+</script>
+
+{{outlet}}
