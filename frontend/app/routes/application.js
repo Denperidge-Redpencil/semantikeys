@@ -6,7 +6,11 @@ import { action } from '@ember/object';
 
 function checkNav(currentRouteName) {
   let renderNav = true;
-  if (currentRouteName.startsWith('thirteen') || currentRouteName.startsWith('start') || currentRouteName.startsWith('navigation')) {
+  if (
+    currentRouteName.startsWith('thirteen') ||
+    currentRouteName.startsWith('start') ||
+    currentRouteName.startsWith('navigation')
+  ) {
     renderNav = false;
   }
 
@@ -19,20 +23,17 @@ export default class ApplicationRoute extends Route {
   @tracked opts;
 
   model(params, transition) {
-
     this.opts = {
-      nav: checkNav(transition.to.name)
-    }
+      nav: checkNav(transition.to.name),
+    };
 
     this.router.on('routeDidChange', (transition) => {
       this.opts.nav = checkNav(transition.to.name);
-
 
       //this.menuService.music = transition.to.name;
       set(this.menuService, 'music', transition.to.name);
       //document.querySelector('#music-component audio').src = `/audio/music/${transition.to.name}.mp3`;
     });
     return this.opts;
-    
   }
 }
