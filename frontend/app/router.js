@@ -19,5 +19,6 @@ Router.map(function () {
   this.route('navigation');
   this.route('cbrpnk', function () {
     this.route('pc');
+    this.route('f12-console');
   });
 });
