@@ -1,6 +1,67 @@
 {{page-title "Pc"}}
 
-<button type="button" {{on 'click' @model.boot}}>boot</button>
-<section id="screen"></section>
+<br>
+<button type="button" {{on 'click' @model.boot}} class="btn" id="boot">boot</button>
+<section id="screen">
+    <div id="output"></div>
+
+    <div class="input-wrap">
+      <span>$</span>
+      <input id="input" type="text" autofocus />
+    </div>
+</section>
+
+<style>
+    /* Imported & adapted from bash-terminal example */
+    #screen {
+        position: relative;
+        display: none;
+        overflow-y: auto;
+        height: 80vh;
+    }
+    #screen, #input {
+       background: black;
+       font-family: monospace;
+       line-height: 120%;
+    }
+
+    #output {
+        position: absolute;
+        bottom: 100px;
+
+       white-space: pre;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column-reverse;
+        overflow-y: scroll;
+
+    }
+
+    .input-wrap {
+        position: absolute;
+       left: 0; right: 0;
+       bottom: 0;
+       top: calc(100%-100px);
+    }
+
+    #input {
+        width: 90%;
+       border: none;
+       font-size: inherit;
+    }
+
+    #input:focus {
+       outline: none;
+    }
+
+    #input, .input-wrap {
+       color: #00ff73;
+    }
+    
+    .error {
+       color: red;
+    }
+</style>
 
 {{outlet}}
