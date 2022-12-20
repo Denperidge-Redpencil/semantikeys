@@ -164,7 +164,7 @@ export default class CbrpnkPcRoute extends Route {
       }
       run(input.value).then(function () {
         input.value = ''
-        document.body.scrollTop = 10e6
+        document.getElementById('output').scrollTop = 10e6
       })
     })
 
