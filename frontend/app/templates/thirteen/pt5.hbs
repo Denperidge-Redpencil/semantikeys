@@ -1,2 +1,13 @@
 {{page-title "Pt5"}}
+
+<img {{on "drag" @model.keyDrag}} {{on "dragend" @model.keyDrop}}  src="/images/thirteen.pt5.1.jpg" draggable="true"/>
+<img {{on "dragover" @model.keyholeDragover}} {{on "drop" @model.keyholeDrop}} src="/images/thirteen.pt5.2.jpg" />
+
+<style>
+    img {
+        width: 30vw;
+        height: auto;
+    }
+</style>
+
 {{outlet}}

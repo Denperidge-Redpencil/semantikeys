@@ -13,6 +13,8 @@ Router.map(function () {
     this.route('pt2', { path: '2' });
     this.route('pt3', { path: 'there' });
     this.route('pt4', { path: 'for' });
-    this.route('pt5');
+    this.route('pt5', { path: '5' });
+    this.route('pt6', { path: 'key' });
   });
+  this.route('navigation');
 });
