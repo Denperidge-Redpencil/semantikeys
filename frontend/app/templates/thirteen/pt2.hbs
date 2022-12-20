@@ -1,0 +1,7 @@
+{{page-title "Pt2"}}
+
+{{#each @model as |option|}}
+    <LinkTo @route="{{option.link}}">{{option.title}}</LinkTo>
+{{/each}}
+
+{{outlet}}

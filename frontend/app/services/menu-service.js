@@ -8,6 +8,6 @@ export default class MenuServiceService extends Service {
   }
 
   set music(val) {
-    this._music = val;
+    this._music = val.split('.')[0];
   }
 }
