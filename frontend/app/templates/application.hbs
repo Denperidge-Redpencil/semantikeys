@@ -1,7 +1,10 @@
 {{page-title "semantikeys"}}
 
+<Menu/>
 <main>
+    {{#if @model.nav}}
+        Return to the <LinkTo @route="navigation">map</LinkTo>
+    {{/if}}
     {{outlet}}
 </main>
-<Menu/>
 
