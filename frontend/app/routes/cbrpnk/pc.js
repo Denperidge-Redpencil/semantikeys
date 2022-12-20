@@ -133,6 +133,16 @@ export default class CbrpnkPcRoute extends Route {
       env.exit(0);
     }
 
+    emulator.commands.login = function(env, args) {
+      if (args[1] != 'infinitytrain') {
+        env.error('Incorrect username.');
+        exit(1);
+      }
+
+      env.output('Logged in')
+      env.exit(0);
+    }
+
     /*
     let term = new Terminal();
 
