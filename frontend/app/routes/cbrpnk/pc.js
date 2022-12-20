@@ -3,6 +3,37 @@ import { action } from '@ember/object';
 
 import bashEmulator from 'bash-emulator';
 
+function bashEmulatorFs(...args) {
+  let fileSystem = {};
+  for (let i = 0; i < args.length; i++) {
+    let arg = args[i]
+
+    let file = {
+      type: arg.name.endsWith('/') ? 'dir' : 'file',
+    }
+    if (arg.date) {
+      //YYYY-MM-DDTHH:mm:ss.sssZ
+      file.modified = Date.parse(arg.date + 'T12:00:13.000Z');
+    } else {
+      file.modified = Date.now();
+    }
+    if (arg.content) {
+      file.content = content
+    }
+
+    fileSystem[arg.name] = file;
+  }
+
+  return fileSystem;
+}
+
+/*
+bashEmulatorFs(
+  {
+    name: '/home/cat/createdat',
+    modified: '2022-12-20'
+  },
+)*/
 
 export default class CbrpnkPcRoute extends Route {
   model() {
@@ -21,31 +52,56 @@ export default class CbrpnkPcRoute extends Route {
     var input = document.getElementById('input')
     var output = document.getElementById('output')
 
+    let writedate1 = Date.parse('2022-12-20T19:32:44.947Z');
+
     var emulator = bashEmulator({
       workingDirectory: '/',
       fileSystem: {
+        // Custom fileSystem: {}
         '/': {
           type: 'dir',
           modified: Date.now()
-        },
-        '/README.txt': {
-          type: 'file',
-          modified: Date.now(),
-          content: 'empty'
         },
         '/home': {
           type: 'dir',
           modified: Date.now()
         },
-        '/home/user/journal.txt': {
+        '/home/john/journal.txt': {
           type: 'file',
           modified: Date.now(),
           content: 'this is private!'
         },
-        '/home/user': {
+        '/home/john': {
           type: 'dir',
           modified: Date.now()
+        },
+
+        '/home/cat': {
+          type: 'dir',
+          modified: writedate1
+        },
+        '/home/cat/notes': {
+          type: 'dir',
+          modified: writedate1
+        },
+        
+        '/home/cat/notes/music.md': {
+          type: 'file',
+          modified: writedate1,
+          content: `
+          I want to use some music I like to fuel this project. But you know, actually have them be beneficial to the atmosphere.
+          ~~Cyberpunk (stay ugly - crime3s)~~
+          ~~laye night illuminati talks~~
+          I can't stop me - twice for timed math thing
+          ox let's go
+
+          passenger siouxxie
+
+          god is a circle for bossfight?
+          `
         }
+        
+
       }
     })
 
@@ -132,13 +188,26 @@ export default class CbrpnkPcRoute extends Route {
     }
 
     emulator.commands.login = function(env, args) {
-      if (args[1] != 'infinitytrain') {
+      console.log(args)
+      if (args[0] != 'infinitytrain') {
         env.error('Incorrect username.');
-        exit(1);
+        env.exit(1);
+      } else if (args[1] != '8tr@!n') {
+        env.error('Incorrect password.');
+        env.exit(1);
+
+      } else {
+        env.output('Logged in.')
+        delete emulator.commands.login;
+        emulator.commands.printkey = function(env) {
+          env.output('Successful print.');
+          env.output('Added key to your inventory.')
+          env.exit(0);
+        }
+        env.exit(0);
       }
 
-      env.output('Logged in')
-      env.exit(0);
+
     }
 
     /*

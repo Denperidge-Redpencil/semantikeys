@@ -3,7 +3,7 @@
 <br>
 <button type="button" {{on 'click' @model.boot}} class="btn" id="boot">boot</button>
 <section id="screen">
-    <div id="output"></div>
+    <div id="output-wrap"><div id="output"></div></div>
 
     <div class="input-wrap">
       <span>$</span>
@@ -25,16 +25,21 @@
        line-height: 120%;
     }
 
-    #output {
+    #output-wrap {
+        width: 100%;
+        top: calc(100%-100px);
         position: absolute;
+        top: 0;
         bottom: 100px;
-
-       white-space: pre;
-        height: 100%;
-
         display: flex;
         flex-direction: column-reverse;
-        overflow-y: scroll;
+        overflow: scroll;
+    }
+
+    #output {
+       white-space: pre;
+        
+        overflow: scroll;
 
     }
 
@@ -43,6 +48,8 @@
        left: 0; right: 0;
        bottom: 0;
        top: calc(100%-100px);
+       z-index: 20;
+       background-color: black;;
     }
 
     #input {
