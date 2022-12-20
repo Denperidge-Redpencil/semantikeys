@@ -10,7 +10,7 @@ module.exports = function (defaults) {
       optimizer: false,
     },
     sassOptions: {
-      includePaths: ['node_modules/xterm/css'],
+      includePaths: [],
     },
   });
 
