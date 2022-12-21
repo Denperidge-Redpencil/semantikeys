@@ -21,7 +21,7 @@
             Keys
         </h3>
         {{#each this.keys as |key| }}
-            <div id={{key.name}} class="key {{if key.owned 'owned'}}" draggable="{{ if key.owned 'true' }}">
+            <div id={{key.name}} class="key {{if key.owned 'owned'}}" draggable="{{ if key.owned 'true' }}" {{on "drag" this.keyDrag}}>
                 {{svg-jar key.name title=(concat key.name " key")  }}
 
             </div>

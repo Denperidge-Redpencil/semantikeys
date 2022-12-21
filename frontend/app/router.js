@@ -25,4 +25,7 @@ Router.map(function () {
     //this.route('index', )
   });
   this.route('industrial', function () {});
+  this.route('locks', { path: 'locksz' }, function () {
+    this.route('credits');
+  });
 });

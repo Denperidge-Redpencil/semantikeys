@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { transition } from '@ember/routing';
-import { get } from '@ember/object';
+import { get, set } from '@ember/object';
 
 export default class AudioComponent extends Component {
   @tracked pauseOrPlay = 'Play';
@@ -43,5 +43,11 @@ export default class AudioComponent extends Component {
     } else {
       document.getElementById('music-component').style.left = '-120px';
     }
+  }
+
+  @action
+  keyDrag(event) {
+    console.log(event.target.id);
+    set(this.menuService, 'key', event.target.id);
   }
 }

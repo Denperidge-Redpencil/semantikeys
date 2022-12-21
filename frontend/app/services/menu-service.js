@@ -5,6 +5,7 @@ import { set } from '@ember/object';
 
 export default class MenuServiceService extends Service {
   @tracked _music = '';
+  draggedKey = '';
   _keys = Tracked([
     {
       name: 'maxi',

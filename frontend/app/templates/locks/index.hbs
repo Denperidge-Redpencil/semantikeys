@@ -1,0 +1,26 @@
+{{page-title "Index"}}
+
+
+{{#each @model.keys as |key| }}
+    <div id="l-{{key.name}}" class="lock" {{on "dragover" @model.keyDragover}} {{on "drop" @model.keyDrop}} >
+        {{svg-jar (concat "l-" key.name) title=(concat key.name "'s lock")  }}
+    </div>
+{{/each}}
+
+<style>
+    main{
+        display: flex;
+        justify-content: space-around;
+    }
+    .lock {
+        width: 75px;
+        display: inline-block;
+        transition: filter 1s;
+    }
+
+    .unlock {
+        filter: blur(2px) sepia(100%);
+    }
+</style>
+
+{{outlet}}
