@@ -1,0 +1,27 @@
+{{page-title "Twos"}}
+<link rel="stylesheet" href="{{rootURL}}assets/twos.css">
+
+<div class="doodle">
+    <div id="overlay"><h1>{{@model.params.title}}</h1></div>
+
+    <h1>{{@model.params.timer}}</h1>
+
+    {{#each @model.assignments as |assignment|}}
+        <h2>{{assignment.prompt}}</h2>
+        {{#if assignment.choose}}
+            <div>
+                {{#each assignment.options as |option|}}
+                    <button {{on 'click' @model.answer}} class="{{assignment.id}}" value="{{option}}">
+                        {{option}}
+                    </button>
+                {{/each}}
+            </div>
+        {{/if}}
+    {{else}}
+        <h3>Completed all assignments!</h3>
+        <h4>Added the maxi key to your inventory</h4>
+    {{/each}}
+</div>
+
+
+{{outlet}}

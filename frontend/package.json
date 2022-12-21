@@ -77,5 +77,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "doodle.css": "^0.0.2"
   }
 }

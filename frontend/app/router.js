@@ -21,5 +21,7 @@ Router.map(function () {
     this.route('pc');
     this.route('f12-console');
   });
-  this.route('twos');
+  this.route('twos', { path: '/2s' }, function () {
+    //this.route('index', )
+  });
 });

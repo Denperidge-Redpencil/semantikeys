@@ -1,0 +1,22 @@
+@import "doodle.css/doodle.css";
+@import url('https://fonts.googleapis.com/css2?family=Short+Stack&display=swap');
+
+.doodle {
+    font-family: 'Short Stack', cursive;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: bisque;
+    transition: height 1s;
+    overflow: auto;
+}
