@@ -15,10 +15,12 @@ export default class LocksIndexRoute extends Route {
   @service menuService;
 
   model() {
+    /*
     this.menuService.getKey('frostbite');
     this.menuService.getKey('smoky');
     this.menuService.getKey('maxi');
     this.menuService.getKey('acid');
+    */
     return {
       keys: this.menuService.keys,
       keyDragover: this.keyDragover,
@@ -45,7 +47,7 @@ export default class LocksIndexRoute extends Route {
       let unlockedAmount = document.querySelectorAll('.lock.unlock').length;
 
       if (unlockedAmount >= lockAmount) {
-        this.router.transitionTo('locks/credits');
+        this.router.transitionTo('locks.credits');
       }
     }
   }
