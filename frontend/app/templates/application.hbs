@@ -1,7 +1,6 @@
 {{page-title "semantikeys"}}
 
-<Menu/>
-<main>
+<header>
     {{#if @model.nav}}
         <nav>
             Return to the <LinkTo @route="navigation">map</LinkTo>
@@ -11,6 +10,9 @@
             {{~/each~}}
         </nav>
     {{/if}}
+</header>
+<Menu/>
+<main>
     {{outlet}}
 </main>
 
