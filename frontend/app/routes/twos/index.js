@@ -13,7 +13,72 @@ function rng(max, numbersBeforeDecimal=-1) {
 }
 
 
-function assignment() {
+function assignmentCalculate(operator) {
+    let number1, number2;
+    let wrong1, wrong2;
+    let answer;
+    let plusOrMinus = operator == '-' || operator == '+';
+
+    if (plusOrMinus) {
+        number1 = rng(56);
+        number2 = rng(11);
+    } else {
+        number1 = rng(8, rng(3));
+        number2 = rng(8, rng(1));
+    }
+
+    switch (operator) {
+        case '/':
+            answer = number1 / number2;
+            break;
+
+        case '*':
+            answer = number1 * number2;
+            break;
+
+        case '-':
+            answer = number1 - number2;
+            break;
+            
+        default:
+            answer = number1 + number2;
+            break;
+    }
+
+    if (plusOrMinus) {
+        wrong1 = answer + rng(3);
+        wrong2 = answer - rng(5);
+    } else {
+        wrong1 = answer * rng(3, 5);
+        wrong2 = answer / rng(5, 3);
+    }
+
+    
+    return assignmentChoose(
+        `${number1}${operator}${number2}`,
+        `${number1} ${operator} ${number2} is ?`,
+        answer, wrong1, wrong2
+    )
+}
+
+function assignments() {
+    let selection = [];
+
+    let premades = [
+        assignmentChoose('e', 'What is E?', Math.E, rng(5, 1), rng(7, 2)),
+        assignmentChoose('pi', 'What is pi?', Math.PI, rng(4, 1), rng(4, 1))
+    ]
+
+    selection.push(premades[rng(premades.length)]);
+
+    ['-', '+', '/', '+', '*'].forEach((operator) => {
+        selection.push(assignmentCalculate(operator));
+    });
+
+
+    selection = selection.concat(premades);
+
+    return selection;
 
 }
 
@@ -45,9 +110,7 @@ export default class TwosRoute extends Route {
         timer: 5,
     });
     timerInterval = 0;
-    assignments = Tracked([
-        assignmentChoose(1, 'What is E?', Math.E, rng(5, 1), rng(7, 2))
-    ]);
+    assignments = Tracked(assignments());
 
     
     @action
@@ -59,6 +122,7 @@ export default class TwosRoute extends Route {
 
             later(this, function() {
                 this.params.timer = 5;
+                this.assignments = Tracked(assignments())
                 this.refresh();
             }, 2000);
         }
@@ -105,6 +169,8 @@ export default class TwosRoute extends Route {
             this.assignments.splice(this.assignments.indexOf(assignment), 1);
         } else {
             console.log('wrong')
+            this.params.timer -= 3;
+
         }
 
         if (this.assignments.length == 0) {
