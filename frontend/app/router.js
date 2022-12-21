@@ -24,4 +24,5 @@ Router.map(function () {
   this.route('twos', { path: '/2s' }, function () {
     //this.route('index', )
   });
+  this.route('industrial', function () {});
 });
