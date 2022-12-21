@@ -11,7 +11,7 @@
         {{#if assignment.choose}}
             <div>
                 {{#each assignment.options as |option|}}
-                    <button {{on 'click' @model.answer}} class="{{assignment.id}}" value="{{option}}">
+                    <button class="{{assignment.id}}" value="{{option}}" type="button" {{on 'click' @model.answer}}>
                         {{option}}
                     </button>
                 {{/each}}
