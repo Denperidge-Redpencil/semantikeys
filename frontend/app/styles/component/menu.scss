@@ -17,6 +17,9 @@ main {
     bottom: 0;
     //right: 0;
 
+    background-color: bisque;
+    z-index: 9;
+
     transition: left ease-in-out 0.5s;
 
     #reveal {
@@ -32,6 +35,26 @@ main {
     &:hover {
         left: 0;
         
+    }
+}
+
+#keys {
+    width: 80%;
+    h3 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    h3 ~ svg {
+        display: block;
+        width: 80%;
+        height: auto;
+        margin: 20px auto;
+        filter: grayscale(1) blur(4px);
+
+    }
+    .owned {
+       filter: none;
     }
 }
 

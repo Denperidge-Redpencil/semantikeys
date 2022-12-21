@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 
 import bashEmulator from 'bash-emulator';
 
@@ -36,6 +37,8 @@ bashEmulatorFs(
 )*/
 
 export default class CbrpnkPcRoute extends Route {
+  @service menuService;
+
   model() {
     return {
       boot: this.boot,
@@ -240,6 +243,7 @@ export default class CbrpnkPcRoute extends Route {
     })
     // END Imported directly from the bash-terminal repo
 
+    emulator.menuService = this.menuService;
 
     emulator.commands.help = function (env) {
       env.output(Object.keys(emulator.commands).join('\n'));
@@ -259,9 +263,11 @@ export default class CbrpnkPcRoute extends Route {
         env.output('Logged in.')
         delete emulator.commands.login;
         emulator.commands.printkey = function(env) {
+          env.system.menuService.getKey('frostbite')
           env.output('Successful print.');
           env.output('Added key to your inventory.')
           env.exit(0);
+          
         }
         env.exit(0);
       }

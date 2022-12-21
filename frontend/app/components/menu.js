@@ -18,6 +18,11 @@ export default class AudioComponent extends Component {
     return this.menuService.music; // = this.globals.music;
   }
 
+  get keys() {
+    console.log(this.menuService.keys)
+    return this.menuService.keys;
+  }
+
   @action
   playMusic() {
     let audio = document.querySelector('audio');

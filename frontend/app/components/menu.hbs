@@ -12,4 +12,17 @@
     >{{this.pauseOrPlay}}</button>
 
     {{yield}}
+
+    <hr>
+
+    <section id="keys">
+        <h3>
+            {{svg-jar 'keyraven'}}
+            Keys
+        </h3>
+        {{#each this.keys as |key| }}
+            {{svg-jar key.name title=(concat key.name " key") class=(if key.owned 'owned') }}
+        {{/each}}
+    </section>
+
 </aside>
