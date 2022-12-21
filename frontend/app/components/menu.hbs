@@ -21,7 +21,10 @@
             Keys
         </h3>
         {{#each this.keys as |key| }}
-            {{svg-jar key.name title=(concat key.name " key") class=(if key.owned 'owned') }}
+            <div id={{key.name}} class="key {{if key.owned 'owned'}}" draggable="{{ if key.owned 'true' }}">
+                {{svg-jar key.name title=(concat key.name " key")  }}
+
+            </div>
         {{/each}}
     </section>
 
