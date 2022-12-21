@@ -19,7 +19,7 @@ export default class AudioComponent extends Component {
   }
 
   get keys() {
-    console.log(this.menuService.keys)
+    console.log(this.menuService.keys);
     return this.menuService.keys;
   }
 

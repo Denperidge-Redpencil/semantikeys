@@ -7,11 +7,11 @@ import bashEmulator from 'bash-emulator';
 function bashEmulatorFs(...args) {
   let fileSystem = {};
   for (let i = 0; i < args.length; i++) {
-    let arg = args[i]
+    let arg = args[i];
 
     let file = {
       type: arg.name.endsWith('/') ? 'dir' : 'file',
-    }
+    };
     if (arg.date) {
       //YYYY-MM-DDTHH:mm:ss.sssZ
       file.modified = Date.parse(arg.date + 'T12:00:13.000Z');
@@ -19,7 +19,7 @@ function bashEmulatorFs(...args) {
       file.modified = Date.now();
     }
     if (arg.content) {
-      file.content = content
+      file.content = content;
     }
 
     fileSystem[arg.name] = file;
@@ -47,15 +47,14 @@ export default class CbrpnkPcRoute extends Route {
 
   @action
   boot(e) {
-    e.target.style.display = "none";
+    e.target.style.display = 'none';
     document.getElementById('screen').style.display = 'block';
 
     let password = 'L@k3';
 
-    
     // START Imported directly from the bash-terminal repo
-    var input = document.getElementById('input')
-    var output = document.getElementById('output')
+    var input = document.getElementById('input');
+    var output = document.getElementById('output');
 
     let writedate1 = Date.parse('2022-12-20T19:32:44.947Z');
     let sysdate = Date.parse('2000-01-01T04:20:41.532Z');
@@ -66,11 +65,11 @@ export default class CbrpnkPcRoute extends Route {
         // Custom fileSystem: {}
         '/': {
           type: 'dir',
-          modified: Date.now()
+          modified: Date.now(),
         },
         '/home': {
           type: 'dir',
-          modified: Date.now()
+          modified: Date.now(),
         },
         '/home/aly/message1': {
           type: 'file',
@@ -87,7 +86,7 @@ export default class CbrpnkPcRoute extends Route {
           ---
 
           My passwords are "too weak". I have to "use more symbols". Whatever, I'll just replace
-          `
+          `,
         },
 
         '/home/aly/message1': {
@@ -96,25 +95,25 @@ export default class CbrpnkPcRoute extends Route {
           content: `
           You have to see this show! Absolutely my all time favourite. Like, I even changed my password to the name of the season 2 protagonist!
           Well, the metallic one. There's multiple prot-just watch the show!
-          `
+          `,
         },
         '/home/aly/link.url': {
           type: 'file',
           modified: Date.now(),
-          content: 'https://www.imdb.com/list/ls566913827/'
+          content: 'https://www.imdb.com/list/ls566913827/',
         },
         '/home/aly': {
           type: 'dir',
-          modified: Date.now()
+          modified: Date.now(),
         },
 
         '/sys': {
           type: 'dir',
-          modified: sysdate
+          modified: sysdate,
         },
         '/sys/motd': {
           type: 'dir',
-          modified: sysdate
+          modified: sysdate,
         },
 
         '/sys/motd/passwords.txt': {
@@ -134,19 +133,18 @@ export default class CbrpnkPcRoute extends Route {
             Have a nice day!
             - Admins
             
-            P.S. Does anyone know what 'meta' or 'leetspeak' means? Please contact me if so.`
+            P.S. Does anyone know what 'meta' or 'leetspeak' means? Please contact me if so.`,
         },
-        
 
         '/home/cat': {
           type: 'dir',
-          modified: writedate1
+          modified: writedate1,
         },
         '/home/cat/notes': {
           type: 'dir',
-          modified: writedate1
+          modified: writedate1,
         },
-        
+
         '/home/cat/notes/music.md': {
           type: 'file',
           modified: writedate1,
@@ -160,87 +158,85 @@ export default class CbrpnkPcRoute extends Route {
           passenger siouxxie
 
           god is a circle for bossfight?
-          `
-        }
-        
-
-      }
-    })
+          `,
+        },
+      },
+    });
 
     emulator.commands.clear = function (env) {
-      output.innerHTML = ''
-      env.exit()
-    }
+      output.innerHTML = '';
+      env.exit();
+    };
 
-    var ENTER = 13
-    var UP = 38
-    var DOWN = 40
+    var ENTER = 13;
+    var UP = 38;
+    var DOWN = 40;
 
-    function log (result) {
+    function log(result) {
       if (result) {
-        output.innerHTML += result + '\n'
+        output.innerHTML += result + '\n';
       }
     }
 
-    function error (result) {
-      log('<div class="error">' + result + '</div>')
+    function error(result) {
+      log('<div class="error">' + result + '</div>');
     }
 
-    function run (cmd) {
-      log('$ ' + cmd)
-      return emulator.run(cmd).then(log, error)
+    function run(cmd) {
+      log('$ ' + cmd);
+      return emulator.run(cmd).then(log, error);
     }
 
-    var completeFunctions = {}
-    completeFunctions[UP] = emulator.completeUp
-    completeFunctions[DOWN] = emulator.completeDown
+    var completeFunctions = {};
+    completeFunctions[UP] = emulator.completeUp;
+    completeFunctions[DOWN] = emulator.completeDown;
 
-    function complete (direction) {
-      var completeFunction = completeFunctions[direction]
+    function complete(direction) {
+      var completeFunction = completeFunctions[direction];
       if (!completeFunction) {
-        return
+        return;
       }
-      var cursorPosition = input.selectionStart
-      var beforeCursor = input.value.slice(0, cursorPosition)
+      var cursorPosition = input.selectionStart;
+      var beforeCursor = input.value.slice(0, cursorPosition);
       completeFunction(beforeCursor).then(function (completion) {
         if (completion) {
-          input.value = completion
-          input.setSelectionRange(cursorPosition, cursorPosition)
+          input.value = completion;
+          input.setSelectionRange(cursorPosition, cursorPosition);
         }
-      })
+      });
     }
 
     input.addEventListener('keydown', function (e) {
       if (e.altKey || e.metaKey || e.shiftKey || e.ctrlKey) {
-        return
+        return;
       }
       if (e.which === UP || e.which === DOWN) {
-        e.preventDefault()
-        complete(e.which)
+        e.preventDefault();
+        complete(e.which);
       }
-    })
+    });
 
     input.addEventListener('keyup', function (e) {
       if (e.which !== ENTER) {
-        return
+        return;
       }
       run(input.value).then(function () {
-        input.value = ''
-        document.getElementById('output').scrollTop = 10e6
-      })
-    })
+        input.value = '';
+        document.getElementById('output').scrollTop = 10e6;
+      });
+    });
 
     document.body.addEventListener('click', function () {
       // Prevent when user is selecting text
       if (!window.getSelection().isCollapsed) {
-        return
+        return;
       }
-      input.focus()
-    })
+      input.focus();
+    });
 
     run('pwd').then(function () {
-      run('ls')
-    })
+      run('ls');
+    });
     // END Imported directly from the bash-terminal repo
 
     emulator.menuService = this.menuService;
@@ -248,32 +244,28 @@ export default class CbrpnkPcRoute extends Route {
     emulator.commands.help = function (env) {
       env.output(Object.keys(emulator.commands).join('\n'));
       env.exit(0);
-    }
+    };
 
-    emulator.commands.login = function(env, args) {
-      console.log(args)
+    emulator.commands.login = function (env, args) {
+      console.log(args);
       if (args[0] != 'aly') {
         env.error('Incorrect username.');
         env.exit(1);
       } else if (args[1] != password) {
         env.error('Incorrect password.');
         env.exit(1);
-
       } else {
-        env.output('Logged in.')
+        env.output('Logged in.');
         delete emulator.commands.login;
-        emulator.commands.printkey = function(env) {
-          env.system.menuService.getKey('frostbite')
+        emulator.commands.printkey = function (env) {
+          env.system.menuService.getKey('frostbite');
           env.output('Successful print.');
-          env.output('Added key to your inventory.')
+          env.output('Added key to your inventory.');
           env.exit(0);
-          
-        }
+        };
         env.exit(0);
       }
-
-
-    }
+    };
 
     /*
     let term = new Terminal();
@@ -287,6 +279,5 @@ export default class CbrpnkPcRoute extends Route {
       .then((input) => alert(`User entered: ${input}`))
       .catch((error) => alert(`Error reading: ${error}`));
     */
-
   }
 }

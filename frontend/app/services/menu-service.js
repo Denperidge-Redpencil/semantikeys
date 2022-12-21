@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import {tracked as Tracked} from 'tracked-built-ins';
+import { tracked as Tracked } from 'tracked-built-ins';
 import { set } from '@ember/object';
 
 export default class MenuServiceService extends Service {
@@ -47,9 +47,8 @@ export default class MenuServiceService extends Service {
 
   }
   */
- getKey(name) {
-  let key = this.keys.find((key) => key.name == name)
-  set(key, 'owned', true);
-
- }
+  getKey(name) {
+    let key = this.keys.find((key) => key.name == name);
+    set(key, 'owned', true);
+  }
 }

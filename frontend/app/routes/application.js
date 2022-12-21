@@ -12,18 +12,16 @@ function checkNav(currentRouteName) {
     currentRouteName.startsWith('navigation')
   ) {
     renderNav = false;
-  }
-  else {
+  } else {
     renderNav = [];
     let routes = currentRouteName.split('.');
     for (let i = 0; i < routes.length; i++) {
-      let routecomponents = routes.slice(0, i+1);
-      renderNav.push( { 
+      let routecomponents = routes.slice(0, i + 1);
+      renderNav.push({
         route: routecomponents.join('.'),
-        text: routes[i]
+        text: routes[i],
       });
     }
-
   }
 
   return renderNav;
