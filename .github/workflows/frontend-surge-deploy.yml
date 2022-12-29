@@ -33,5 +33,5 @@ jobs:
       env:
         SURGE_LOGIN: ${{ secrets.surgeLogin }}
         SURGE_TOKEN: ${{ secrets.surgeToken }}
-      run: npx ember surge
+      run: npx ember surge --login $SURGE_LOGIN --token $SURGE_TOKEN
 
