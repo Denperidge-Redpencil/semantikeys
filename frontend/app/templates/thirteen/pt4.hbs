@@ -4,7 +4,7 @@
     <h3 {{animate 'fadeInDown' delay=value.delay}}>{{value.title}}</h3>
 {{/each}}
 
-<LinkTo id="cont" @route="thirteen.pt5" />
+<LinkTo id="cont" data-test-rr="continue" @route="thirteen.pt5" />
 <LinkTo id="back" @route="thirteen.pt3" />
 
 <style>
