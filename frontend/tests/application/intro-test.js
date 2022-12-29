@@ -9,7 +9,8 @@ import {
   pauseTest,
   resumeTest,
   settled,
-  find
+  find,
+  triggerEvent
 } from '@ember/test-helpers';
 import {} from '@ember/test';
 import { setupApplicationTest } from 'ember-qunit';
@@ -26,7 +27,7 @@ module('Acceptance | intro', function (hooks) {
   setupApplicationTest(hooks);
 
 
-  test('Landing page navigates to every thirteen part, and then to navigation', async function (assert) {
+  test('Landing page navigates to thirteen.pt*, awards the smoky key, and then navigates to navigation', async function (assert) {
     
     await visit('/');
     await cont('thirteen.pt1')
@@ -38,27 +39,14 @@ module('Acceptance | intro', function (hooks) {
 
     await cont('thirteen.pt4')
     await cont('thirteen.pt5')
-    //await click(testSelector('continue'));
 
-    //await click()
-    /*
-    await waitUntil(function() {
-      click('#cont')
-      return find('#cont');//.style.display != 'none';
-    }, {timeout: 10000});
-    */
+    await triggerEvent(testSelector('key'), 'drag');
+    await triggerEvent(testSelector('lock'), 'drop');
+    assert.equal(currentRouteName(), 'thirteen.pt6', 'Dragging the key onto the lock in thirteen.pt5 navigates to thirteen.pt6');
 
-    //await cont('thirteen.pt5');
-    
-    /*
-    click(testSelector('continue'));
-    waitUntil(function() {
-      return find('#cont');//.style.display != 'none';
-    }, {timeout: 10000});
-    assert.equal(currentRouteName(), 'thirteen.pt4', 'pt4')
+    assert.ok(find('#smoky').className.includes('owned'), 'The smoky key is now owned.');
 
-    */
-
+    await cont('navigation');
 
   });
 });
