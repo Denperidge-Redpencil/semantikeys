@@ -28,10 +28,7 @@ jobs:
         
     - name: Install dependencies
       run: npm ci
-    
-    - name: Install surge cli
-      run: npm install -g surge
       
-    - name: Use surge to build & deploy
-      run: surge ./dist --token ${{ secrets.surgeToken }}
+    - name: Use ember-cli-surge to build & deploy
+      run: npx ember surge --token ${{ secrets.surgeToken }}
 
