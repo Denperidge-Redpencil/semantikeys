@@ -1,4 +1,5 @@
 <aside id="music-component">
+    <span>{{yield}}</span>
     <audio src="{{this.currentSong}}" autoplay>
 
     </audio>
@@ -10,8 +11,6 @@
     <button 
     type="button" {{on "click" this.playMusic}}
     >{{this.pauseOrPlay}}</button>
-
-    {{yield}}
 
     <hr>
 

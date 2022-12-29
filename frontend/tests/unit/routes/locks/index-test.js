@@ -5,7 +5,7 @@ module('Unit | Route | lock/index', function (hooks) {
   setupTest(hooks);
 
   test('it exists', function (assert) {
-    let route = this.owner.lookup('route:lock/index');
+    let route = this.owner.lookup('route:locks/index');
     assert.ok(route);
   });
 });
