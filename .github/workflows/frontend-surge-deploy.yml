@@ -29,12 +29,6 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
-    - name: Build project
-      run: npm run build
-    
-    - name: Publish to surge.sh
-      uses: dswistowski/surge-sh-action@v1.0.1
-      with:
-        login: denperidge@gmail.com
-        token: ${{ secrets.surgeToken }}
-        project: ./dist
+    - name: Use ember-cli-surge to build & deploy
+      run: ember surge --token ${{ secrets.surgeToken }}
+
