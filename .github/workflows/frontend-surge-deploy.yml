@@ -34,4 +34,5 @@ jobs:
         SURGE_LOGIN: ${{ secrets.surgeLogin }}
         SURGE_TOKEN: ${{ secrets.surgeToken }}
       run: ./deploy.sh
+      shell: bash
 
