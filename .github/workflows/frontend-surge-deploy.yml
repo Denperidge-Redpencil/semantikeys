@@ -30,5 +30,5 @@ jobs:
       run: npm ci
       
     - name: Use ember-cli-surge to build & deploy
-      run: ember surge --token ${{ secrets.surgeToken }}
+      run: npx ember surge --token ${{ secrets.surgeToken }}
 
