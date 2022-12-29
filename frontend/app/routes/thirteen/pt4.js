@@ -28,11 +28,11 @@ export default class ThirteenPt4Route extends Route {
   }
 
   afterModel() {
-    let delay = later(() => {
+    let delay = setTimeout(() => {
       this.router.transitionTo('thirteen.pt3');
     }, 5500);
     this.router.on('routeWillChange', (transition) => {
-      cancel(delay);
+      clearTimeout(delay);
     });
   }
 }

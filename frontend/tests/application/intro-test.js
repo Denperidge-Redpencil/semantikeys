@@ -7,7 +7,9 @@ import {
   currentRouteName,
   waitUntil,
   pauseTest,
-  resumeTest
+  resumeTest,
+  settled,
+  find
 } from '@ember/test-helpers';
 import {} from '@ember/test';
 import { setupApplicationTest } from 'ember-qunit';
@@ -33,23 +35,29 @@ module('Acceptance | intro', function (hooks) {
     await click('a:last-child');
     assert.equal(currentRouteName(), 'thirteen.pt3', 'The third button in thirteen.pt2 navigates to thirteen.pt3')
     
-    //await cont('thirteen.pt4');
+
+    await cont('thirteen.pt4')
+    await cont('thirteen.pt5')
+    //await click(testSelector('continue'));
+
+    //await click()
     /*
-    await click(testSelector('continue'));
-    await pauseTest();
-    assert.equal(currentRouteName(), 'thirteen.pt4', `pt3 -> pt4`);
+    await waitUntil(function() {
+      click('#cont')
+      return find('#cont');//.style.display != 'none';
+    }, {timeout: 10000});
     */
 
-    /*
-    waitUntil(() => {
-      return assert.dom('#cont').hasStyle('display', 'initial')
-    }, 10000);
-    click('h3');
-    assert.equal(currentRouteName(), 'thirteen.pt5', 'Clicking at the right time lets thirteen.pt4 navigate to thirteen.pt5')
-    */
-   //await cont('thirteen.pt5')
-
+    //await cont('thirteen.pt5');
     
+    /*
+    click(testSelector('continue'));
+    waitUntil(function() {
+      return find('#cont');//.style.display != 'none';
+    }, {timeout: 10000});
+    assert.equal(currentRouteName(), 'thirteen.pt4', 'pt4')
+
+    */
 
 
   });
