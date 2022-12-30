@@ -23,8 +23,22 @@ async function cont(dest) {
   assert.equal(currentRouteName(), dest, `${from} navigates to ${dest}`);
 }
 
+async function checkMusicChangeAfterRouteChange(assert, menuService, dest) {
+  let musicBeforeNavigating = menuService.music;
+  await visit(dest);
+  let musicAfterNavigating = menuService.music;
+  assert.ok(musicBeforeNavigating != musicAfterNavigating, `Music changed from ${musicBeforeNavigating} to ${musicAfterNavigating} after visiting ${dest}`);
+}
+
 module('Acceptance | intro', function (hooks) {
   setupApplicationTest(hooks);
+
+  test('Music adapts to the current route', async function(assert) {
+    let menuService = await this.owner.lookup('service:menu-service');
+
+    await checkMusicChangeAfterRouteChange(assert, menuService, '/');
+    await checkMusicChangeAfterRouteChange(assert, menuService, '/navigation');
+  });
 
 
   test('Landing page navigates to thirteen.pt*, awards the smoky key, and then navigates to navigation', async function (assert) {
