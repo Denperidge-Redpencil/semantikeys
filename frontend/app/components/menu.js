@@ -7,23 +7,31 @@ import { get, set } from '@ember/object';
 
 export default class AudioComponent extends Component {
   //@tracked pauseOrPlay = 'Play';
-  @tracked paused = false;
+  @tracked paused;
 
   @service router;
   @service menuService;
 
+
   //@tracked currentSong = get(this.menuService, 'music'); // = this.globals.music;
 
   get currentSong() {
-    //let document.querySelector('audio');
-    console.log(this)
-
     return this.menuService.music; // = this.globals.music;
   }
 
   get keys() {
-    console.log(this.menuService.keys);
     return this.menuService.keys;
+  }
+
+  @action
+  setupAudio() {
+    let audio = document.querySelector('audio');
+    audio.addEventListener('play', () => {
+      set(this, 'paused', false); 
+    });
+    audio.addEventListener('pause', () => {
+      set(this, 'paused', true)
+    });
   }
 
   @action
@@ -31,10 +39,10 @@ export default class AudioComponent extends Component {
     let audio = document.querySelector('audio');
     if (this.paused == false) {
       audio.pause();
-      set(this, 'paused', true);
+      //set(this, 'paused', true);
     } else {
       audio.play();
-      set(this, 'paused', false);
+      //set(this, 'paused', false);
     }
   }
 
