@@ -7,7 +7,7 @@ import { get, set } from '@ember/object';
 
 export default class AudioComponent extends Component {
   //@tracked pauseOrPlay = 'Play';
-  @tracked paused;
+  @tracked paused = true;
 
   @service router;
   @service menuService;
