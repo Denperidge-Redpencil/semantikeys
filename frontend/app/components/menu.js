@@ -27,12 +27,16 @@ export default class AudioComponent extends Component {
   setupAudio() {
     let audio = document.querySelector('audio');
     audio.addEventListener('play', () => {
-      set(this, 'paused', false); 
+      this.paused = false;
+      //set(this, 'paused', false);  Using this fails the ember tests (AbortError)
     });
     audio.addEventListener('pause', () => {
-      set(this, 'paused', true)
+      //set(this, 'paused', true); 
+      this.paused = true
     });
   }
+
+  
 
   @action
   playMusic() {
