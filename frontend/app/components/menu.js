@@ -6,14 +6,17 @@ import { transition } from '@ember/routing';
 import { get, set } from '@ember/object';
 
 export default class AudioComponent extends Component {
-  @tracked pauseOrPlay = 'Play';
+  //@tracked pauseOrPlay = 'Play';
+  @tracked paused = false;
 
   @service router;
   @service menuService;
+
   //@tracked currentSong = get(this.menuService, 'music'); // = this.globals.music;
 
   get currentSong() {
     //let document.querySelector('audio');
+    console.log(this)
 
     return this.menuService.music; // = this.globals.music;
   }
@@ -26,12 +29,12 @@ export default class AudioComponent extends Component {
   @action
   playMusic() {
     let audio = document.querySelector('audio');
-    if (this.pauseOrPlay == 'Pause') {
+    if (this.paused == false) {
       audio.pause();
-      this.pauseOrPlay = 'Play';
+      set(this, 'paused', true);
     } else {
       audio.play();
-      this.pauseOrPlay = 'Pause';
+      set(this, 'paused', false);
     }
   }
 
