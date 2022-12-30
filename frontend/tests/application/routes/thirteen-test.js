@@ -32,6 +32,23 @@ async function visitRoute(context, route) {
   return visit(router.urlFor(route));
 }
 
+// Adapted from https://stackoverflow.com/a/24026594
+function triggerMouseEvent(element, eventType) {
+  let event = new MouseEvent(eventType, {bubbles: true, cancelable: true});
+  element.dispatchEvent(event);
+}
+
+function testDrag(dragThis, ontoThis) {
+  let dragThisRect = dragThis.getBoundingClientRect();
+  let ontoThisRect = dragThis.getBoundingClientRect();
+  console.log(dragThisRect)
+
+  console.log(dragThisRect.left);
+  document.dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true, clientX: dragThisRect.left + 2, clientY: dragThisRect.top + 2}));
+  console.log("m")
+  document.dispatchEvent(new MouseEvent('mouseup', {bubbles: true, cancelable: true, clientX: ontoThisRect.left + 2, clientY: ontoThisRect.top + 2}));
+}
+
 module('Acceptance | thirteen', function (hooks) {
   setupApplicationTest(hooks);
 
@@ -116,5 +133,39 @@ module('Acceptance | thirteen', function (hooks) {
     });
     await click(clickTarget);
     assert.ok(currentRouteName() == 'thirteen.pt5', 'After clicking on the target, pt4 navigates to pt5');
+  });
+
+  test('pt5', async function (assert) {
+    await visitRoute(this, 'thirteen.pt5');
+    let key = find(testSelector('key'));
+    let lock = find(testSelector('lock'));
+
+    console.log(currentRouteName());
+
+    /*
+    triggerMouseEvent(lock, 'mousedown');
+    triggerMouseEvent(key, 'mouseover');
+    triggerMouseEvent(key, 'mouseup');
+    */
+    console.log(currentRouteName());
+
+    let rect = find(testSelector('openMenuButton')).getBoundingClientRect();
+    console.log(rect)
+    console.log(find(testSelector('openMenuButton')))
+    find(testSelector('openMenuButton')).dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true, clientX: rect.left + 5, clientY: rect.top + 5}));
+    find(testSelector('openMenuButton')).dispatchEvent(new MouseEvent('mouseup', {bubbles: true, cancelable: true, clientX: rect.left + 5, clientY: rect.top + 5}));
+    find(testSelector('openMenuButton')).dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true, clientX: rect.left + 5, clientY: rect.top + 5}));
+    find(testSelector('openMenuButton')).dispatchEvent(new MouseEvent('mouseup', {bubbles: true, cancelable: true, clientX: rect.left + 5, clientY: rect.top + 5}));
+
+    /*
+    triggerMouseEvent(key, 'mousedown');
+    triggerMouseEvent(lock, 'mouseover');
+    triggerMouseEvent(key, 'mouseup');
+    */
+   testDrag(key, lock);
+
+    console.log(currentRouteName());
+    await pauseTest();
+
   });
 });
