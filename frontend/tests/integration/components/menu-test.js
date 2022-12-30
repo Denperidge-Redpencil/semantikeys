@@ -24,7 +24,7 @@ function assertMenuKeysVisible(assert, keys, container, visible, messageAddition
 module('Integration | Component | menu', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('Menu open & close button works', async function (assert) {
+  test('Open & close button works', async function (assert) {
     await render(hbs`<Menu />`);
 
     let container = document.querySelector('#ember-testing');
@@ -46,6 +46,31 @@ module('Integration | Component | menu', function (hooks) {
     }, { timeout: 3000 });
 
     assertMenuKeysVisible(assert, keys, container, false, 'after clicking the menu button while it\'s opened');
+  });
+
+
+
+  test('Keys', async function (assert) {
+    await render(hbs`<Menu />`);
+
+    let menuService = this.owner.lookup('service:menu-service');
+    let keyId = 'acid';
+
+    let key = menuService.keys.find((key) => key.name == keyId);
+    let keyElement = find('#' + keyId);
+
+    assert.notOk(key.owned, `The ${keyId} key is unowned in the service by default.`);
+    assert.notOk(keyElement.attributes.draggable, 'Unowned keys aren\'t draggable.')
+    assert.notOk(getComputedStyle(keyElement).filter == 'none', 'Unowned keys have css filters applied.');
+
+
+    await menuService.getKey(keyId);
+    await waitUntil(() => {return find('#' + keyId).attributes.draggable != undefined}, {timeout: 3000})
+    
+    
+    assert.ok(key.owned, `getKey succesfully sets key to owned in the service.`);
+    assert.ok(find('#' + keyId).attributes.draggable, 'Owned keys are draggable.')
+    assert.ok(getComputedStyle(keyElement).filter == 'none', 'Owned keys have no css filters applied.');
   });
   /*
   test('it renders', async function (assert) {
