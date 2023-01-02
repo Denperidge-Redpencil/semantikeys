@@ -89,7 +89,7 @@ module('Integration | Component | menu', function (hooks) {
     let audio = find('audio');
     let audioButton = find(testSelector('audioButton'));
     audio.autoplay = false;
-    audio.pause();
+    await audio.pause();
 
     let audioToPlay = 'navigation';
 
