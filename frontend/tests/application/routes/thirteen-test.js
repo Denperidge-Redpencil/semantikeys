@@ -138,4 +138,10 @@ module('Acceptance | thirteen', function (hooks) {
 
     assert.equal(currentRouteName(), 'thirteen.pt6', 'After dragging the key onto the lock, the current route chanegd to pt6')
   });
+
+  test('pt6', async function (assert) {
+    await visitRoute(this, 'thirteen.pt6');
+    
+    await waitUntilVisible(assert, find(testSelector('continue')), 'The continue link gets displayed.');
+  });
 });
