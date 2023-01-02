@@ -51,18 +51,31 @@ module('Unit | Route | twos/index', function (hooks) {
       testRng(this, func, (value) => {return min <= value && value <= max;}, testIterationcount, `${min} < {0} < ${max}`, message);
     }
     
-    assert.correctDecimalAmount = function(min, max, numbersBeforeDecimal, testIterationcount, message) {
-      testRng(this, () => {return twos.rng(min, max, numbersBeforeDecimal);}, (value) => { return value.toString().split('.')[0].length == numbersBeforeDecimal }, testIterationcount, `The following values all have ${numbersBeforeDecimal} numbers before the .: {0}`, message)
+    assert.correctAmountOfNumbersBeforeDecimal = function(min, max, numbersBeforeDecimal, testIterationcount, message) {
+      let bottomMargin, topMargin;
+      if (numbersBeforeDecimal != 0) {
+        bottomMargin = Math.pow(10, numbersBeforeDecimal-1);
+        topMargin = Math.pow(10, numbersBeforeDecimal);
+      } else {
+        bottomMargin = 0,
+        topMargin = 1
+      }
+
+      let testFunc = function(value) {
+        return bottomMargin <= value && value < topMargin;
+      };
+
+      testRng(this, () => {return twos.rng(min, max, numbersBeforeDecimal);}, testFunc, testIterationcount, `The following values all have ${numbersBeforeDecimal} numbers before the decimal. ${bottomMargin} <= {0} < ${topMargin}`, message)
     }
     
 
-    assert.generatedValuesBetween(0, 50, false, 100, 'rng generates whole numbers between two numbers');
-    assert.generatedValuesBetween(0, 50, 2, 100, 'rng generates decimal numbers between two numbers');
+    assert.generatedValuesBetween(0, 50, false, 100, 'rng generates whole numbers between two numbers.');
+    assert.generatedValuesBetween(0, 50, 2, 100, 'rng generates decimal numbers between two numbers.');
 
-    assert.correctDecimalAmount(1, 5, 1, 100, 'rng can generate exactly 1 number before the decimal');
-    assert.correctDecimalAmount(10, 50, 2, 100, 'rng can generate exactly 2 numbers before the decimal');
-    assert.correctDecimalAmount(100, 500, 3, 100, 'rng can generate exactly 3 numbers before the decimal');
-    assert.correctDecimalAmount(0, 0, 0, 100, 'rng can generate exactly 0 numbers before the decimal');
+    assert.correctAmountOfNumbersBeforeDecimal(100, 500, 3, 100, 'rng can generate exactly 3 numbers before the decimal.');
+    assert.correctAmountOfNumbersBeforeDecimal(10, 50, 2, 100, 'rng can generate exactly 2 numbers before the decimal.');
+    assert.correctAmountOfNumbersBeforeDecimal(1, 5, 1, 100, 'rng can generate exactly 1 number before the decimal.');
+    assert.correctAmountOfNumbersBeforeDecimal(0, 0, 0, 100, 'rng can generate exactly 0 numbers before the decimal.');
 
   });
 
