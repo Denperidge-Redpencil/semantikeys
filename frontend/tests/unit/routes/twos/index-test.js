@@ -10,7 +10,7 @@ function testRng(context, rngFunc, testFunc, testIterationcount, expected, messa
     results.push(generatedValue);
     if (testFunc(generatedValue)) {
       result = false;
-      results = generatedValue;
+      results = [generatedValue];
       break;
     }
   }
@@ -19,8 +19,8 @@ function testRng(context, rngFunc, testFunc, testIterationcount, expected, messa
 
   context.pushResult({
     result: result,
-    actual: rngFunc.toString(),
-    expected: expected,
+    actual: result,
+    expected: true,
     message: `${message} ${expected}`
   });
 }
@@ -40,14 +40,19 @@ module('Unit | Route | twos/index', function (hooks) {
       }
       testRng(this, func, (value) => {return value < min || max < value;}, testIterationcount, `${min} < {0} < ${max}`, message);
     }
-    /*
-    assert.correctDecimalAmount = function(func, min, max, testIterationcount) {
-
+    
+    assert.correctDecimalAmount = function(min, max, numbersBeforeDecimal, testIterationcount, message) {
+      testRng(this, () => {return twos.rng(min, max, numbersBeforeDecimal);}, (value) => { return value.toString().split('.')[0].length != numbersBeforeDecimal }, testIterationcount, `The following values all have ${numbersBeforeDecimal} numbers before the .: {0}`, message)
     }
-    */
+    
 
     assert.generatedValuesBetween(0, 50, false, 100, 'rng generates whole numbers between two numbers');
     assert.generatedValuesBetween(0, 50, 2, 100, 'rng generates decimal numbers between two numbers');
+
+    assert.correctDecimalAmount(1, 5, 1, 100, 'rng can generate exactly 1 number before the decimal');
+    assert.correctDecimalAmount(10, 50, 2, 100, 'rng can generate exactly 2 numbers before the decimal');
+    assert.correctDecimalAmount(100, 500, 3, 100, 'rng can generate exactly 3 numbers before the decimal');
+    assert.correctDecimalAmount(0, 0, 0, 100, 'rng can generate exactly 0 numbers before the decimal');
 
   });
 
