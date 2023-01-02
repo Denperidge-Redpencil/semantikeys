@@ -6,100 +6,6 @@ import { set } from '@ember/object';
 import { later } from '@ember/runloop';
 import { service } from '@ember/service';
 
-// Imported & adapted from from https://www.w3schools.com/JS/js_random.asp
-// max inclusive
-function rng(min, max, numbersBeforeDecimal = -1) {
-  return numbersBeforeDecimal == -1
-    ? Math.floor(Math.random() * (max - min + 1) ) + min
-    : (Math.random() * (max - min + 1)) + min * (10 * numbersBeforeDecimal);
-}
-
-function assignmentCalculate(operator) {
-  let number1, number2;
-  let wrong1, wrong2;
-  let answer;
-  let plusOrMinus = operator == '-' || operator == '+';
-
-  if (plusOrMinus) {
-    number1 = rng(0, 56);
-    number2 = rng(0, 11);
-  } else {
-    number1 = rng(0, 8, rng(1, 3));
-    number2 = rng(1, 8, rng(0, 1));
-  }
-
-  switch (operator) {
-    case '/':
-      answer = number1 / number2;
-      break;
-
-    case '*':
-      answer = number1 * number2;
-      break;
-
-    case '-':
-      answer = number1 - number2;
-      break;
-
-    default:
-      answer = number1 + number2;
-      break;
-  }
-
-  if (plusOrMinus) {
-    wrong1 = answer + rng(2, 9);
-    wrong2 = answer - rng(1, 15);
-  } else {
-    wrong1 = answer * rng(2, 3, 5);
-    wrong2 = answer / rng(2, 5, 3);
-  }
-
-  return assignmentChoose(
-    `${number1}${operator}${number2}`,
-    `${number1} ${operator} ${number2} is ?`,
-    answer,
-    wrong1,
-    wrong2
-  );
-}
-
-function assignments() {
-  let selection = [];
-
-  let premades = [
-    assignmentChoose('e', 'What is E?', Math.E, rng(5, 1), rng(7, 2)),
-    assignmentChoose('pi', 'What is pi?', Math.PI, rng(4, 1), rng(4, 1)),
-  ];
-
-  selection.push(premades[rng(premades.length)]);
-
-  ['-', '+', '/', '+', '*'].forEach((operator) => {
-    selection.push(assignmentCalculate(operator));
-  });
-
-  selection = selection.concat(premades);
-
-  return selection;
-}
-
-function assignmentChoose(id, prompt, correct, wrong1, wrong2) {
-  let options = [];
-  let inserts = [wrong1, wrong2, correct];
-  for (let i = 0; i < inserts.length; i++) {
-    let correctLocation = rng(options.length + 1);
-    options.splice(correctLocation, 0, inserts[i]);
-  }
-
-  return {
-    choose: true,
-
-    id: id,
-    prompt: prompt,
-    correct: correct,
-    options: options,
-  };
-}
-
 export default class TwosRoute extends Route {
   @service router;
   @service menuService;
@@ -109,7 +15,103 @@ export default class TwosRoute extends Route {
     timer: 5,
   });
   timerInterval = 0;
-  assignments = Tracked(assignments());
+  currentAssignments = Tracked(this.newAssignments());
+
+
+
+  // Imported & adapted from from https://www.w3schools.com/JS/js_random.asp
+  // max inclusive
+  rng(min, max, numbersBeforeDecimal = -1) {
+    return numbersBeforeDecimal == -1
+      ? Math.floor(Math.random() * (max - min + 1) ) + min
+      : ((Math.random() * (max - min + 1)) + min) * (10^numbersBeforeDecimal);
+  }
+
+  assignmentCalculate(operator) {
+    let number1, number2;
+    let wrong1, wrong2;
+    let answer;
+    let plusOrMinus = operator == '-' || operator == '+';
+
+    if (plusOrMinus) {
+      number1 = this.rng(0, 56);
+      number2 = this.rng(0, 11);
+    } else {
+      number1 = this.rng(0, 15);
+      number2 = this.rng(1, 15);
+    }
+
+    switch (operator) {
+      case '/':
+        answer = number1 / number2;
+        break;
+
+      case '*':
+        answer = number1 * number2;
+        break;
+
+      case '-':
+        answer = number1 - number2;
+        break;
+
+      default:
+        answer = number1 + number2;
+        break;
+    }
+
+    if (plusOrMinus) {
+      wrong1 = answer + this.rng(2, 9);
+      wrong2 = answer - this.rng(1, 15);
+    } else {
+      wrong1 = answer * this.rng(2, 3, 5);
+      wrong2 = answer / this.rng(2, 5, 3);
+    }
+
+    return this.assignmentChoose(
+      `${number1}${operator}${number2}`,
+      `${number1} ${operator} ${number2} is ?`,
+      answer,
+      wrong1,
+      wrong2
+    );
+  }
+
+  newAssignments() {
+    let selection = [];
+
+    let premades = [
+      this.assignmentChoose('e', 'What is E?', Math.E, this.rng(1, 5, this.rng(1, 2)), this.rng(0, 7, this.rng(1,2))),
+      this.assignmentChoose('pi', 'What is pi?', Math.PI, this.rng(1, 4, this.rng(1,2)), this.rng(0, 4, this.rng(1,2))),
+    ];
+
+    selection.push(premades[this.rng(0, premades.length - 1)]);
+
+    ['-', '+', '/', '+', '*'].forEach((operator) => {
+      selection.push(this.assignmentCalculate(operator));
+    });
+
+    selection = selection.concat(premades);
+
+    return selection;
+  }
+
+  assignmentChoose(id, prompt, correct, wrong1, wrong2) {
+    let options = [];
+    let inserts = [wrong1, wrong2, correct];
+    for (let i = 0; i < inserts.length; i++) {
+      let correctLocation = this.rng(0, options.length);
+      options.splice(correctLocation, 0, inserts[i]);
+    }
+
+    return {
+      choose: true,
+
+      id: id,
+      prompt: prompt,
+      correct: correct,
+      options: options,
+    };
+  }
 
   @action
   minusTimer() {
@@ -122,7 +124,7 @@ export default class TwosRoute extends Route {
         this,
         function () {
           this.params.timer = 5;
-          this.assignments = Tracked(assignments());
+          this.currentAssignments = Tracked(this.newAssignments());
           this.refresh();
         },
         2000
@@ -142,7 +144,7 @@ export default class TwosRoute extends Route {
 
     return {
       params: this.params,
-      assignments: this.assignments,
+      assignments: this.currentAssignments,
       answer: this.answer,
     };
   }
@@ -154,9 +156,9 @@ export default class TwosRoute extends Route {
 
   @action
   answer(e) {
-    console.log(this.assignments);
+    console.log(this.currentAssignments);
     let clickedButton = e.target;
-    let assignment = this.assignments.find(
+    let assignment = this.currentAssignments.find(
       (assignment) => assignment.id == clickedButton.className
     );
 
@@ -164,13 +166,13 @@ export default class TwosRoute extends Route {
       console.log('right');
       console.log(this.timer);
       this.params.timer += 3;
-      this.assignments.splice(this.assignments.indexOf(assignment), 1);
+      this.currentAssignments.splice(this.currentAssignments.indexOf(assignment), 1);
     } else {
       console.log('wrong');
       this.params.timer -= 3;
     }
 
-    if (this.assignments.length == 0) {
+    if (this.currentAssignments.length == 0) {
       this.menuService.getKey('maxi');
       clearInterval(this.timerInterval);
     }
