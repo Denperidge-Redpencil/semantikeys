@@ -6,12 +6,12 @@ import { set } from '@ember/object';
 import { later } from '@ember/runloop';
 import { service } from '@ember/service';
 
-// Imported from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-// max not inclusive
-function rng(max, numbersBeforeDecimal = -1) {
+// Imported & adapted from from https://www.w3schools.com/JS/js_random.asp
+// max inclusive
+function rng(min, max, numbersBeforeDecimal = -1) {
   return numbersBeforeDecimal == -1
-    ? Math.floor(Math.random() * max)
-    : Math.random() * max * (10 * numbersBeforeDecimal);
+    ? Math.floor(Math.random() * (max - min + 1) ) + min
+    : (Math.random() * (max - min + 1)) + min * (10 * numbersBeforeDecimal);
 }
 
 function assignmentCalculate(operator) {
@@ -21,11 +21,11 @@ function assignmentCalculate(operator) {
   let plusOrMinus = operator == '-' || operator == '+';
 
   if (plusOrMinus) {
-    number1 = rng(56);
-    number2 = rng(11);
+    number1 = rng(0, 56);
+    number2 = rng(0, 11);
   } else {
-    number1 = rng(8, rng(3));
-    number2 = rng(8, rng(1));
+    number1 = rng(0, 8, rng(1, 3));
+    number2 = rng(1, 8, rng(0, 1));
   }
 
   switch (operator) {
@@ -47,11 +47,11 @@ function assignmentCalculate(operator) {
   }
 
   if (plusOrMinus) {
-    wrong1 = answer + rng(3);
-    wrong2 = answer - rng(5);
+    wrong1 = answer + rng(2, 9);
+    wrong2 = answer - rng(1, 15);
   } else {
-    wrong1 = answer * rng(3, 5);
-    wrong2 = answer / rng(5, 3);
+    wrong1 = answer * rng(2, 3, 5);
+    wrong2 = answer / rng(2, 5, 3);
   }
 
   return assignmentChoose(
