@@ -32,23 +32,6 @@ async function visitRoute(context, route) {
   return visit(router.urlFor(route));
 }
 
-// Adapted from https://stackoverflow.com/a/24026594
-function triggerMouseEvent(element, eventType) {
-  let event = new MouseEvent(eventType, {bubbles: true, cancelable: true});
-  element.dispatchEvent(event);
-}
-
-function testDrag(dragThis, ontoThis) {
-  let dragThisRect = dragThis.getBoundingClientRect();
-  let ontoThisRect = dragThis.getBoundingClientRect();
-  console.log(dragThisRect)
-
-  console.log(dragThisRect.left);
-  document.dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true, clientX: dragThisRect.left + 2, clientY: dragThisRect.top + 2}));
-  console.log("m")
-  document.dispatchEvent(new MouseEvent('mouseup', {bubbles: true, cancelable: true, clientX: ontoThisRect.left + 2, clientY: ontoThisRect.top + 2}));
-}
-
 module('Acceptance | thirteen', function (hooks) {
   setupApplicationTest(hooks);
 
@@ -140,32 +123,19 @@ module('Acceptance | thirteen', function (hooks) {
     let key = find(testSelector('key'));
     let lock = find(testSelector('lock'));
 
-    console.log(currentRouteName());
+    assert.equal(currentRouteName(), 'thirteen.pt5', 'Before dragging anything, the current route is pt5');
 
-    /*
-    triggerMouseEvent(lock, 'mousedown');
-    triggerMouseEvent(key, 'mouseover');
-    triggerMouseEvent(key, 'mouseup');
-    */
-    console.log(currentRouteName());
+    await lock.dispatchEvent(new DragEvent('drag', {}));
+    await key.dispatchEvent(new DragEvent('drop', {}));
+    assert.equal(currentRouteName(), 'thirteen.pt5', 'After dragging the lock onto the key, the current route remained pt5');
 
-    let rect = find(testSelector('openMenuButton')).getBoundingClientRect();
-    console.log(rect)
-    console.log(find(testSelector('openMenuButton')))
-    find(testSelector('openMenuButton')).dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true, clientX: rect.left + 5, clientY: rect.top + 5}));
-    find(testSelector('openMenuButton')).dispatchEvent(new MouseEvent('mouseup', {bubbles: true, cancelable: true, clientX: rect.left + 5, clientY: rect.top + 5}));
-    find(testSelector('openMenuButton')).dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true, clientX: rect.left + 5, clientY: rect.top + 5}));
-    find(testSelector('openMenuButton')).dispatchEvent(new MouseEvent('mouseup', {bubbles: true, cancelable: true, clientX: rect.left + 5, clientY: rect.top + 5}));
+    await lock.dispatchEvent(new DragEvent('drag', {}));
+    await lock.dispatchEvent(new DragEvent('drop', {}));
+    assert.equal(currentRouteName(), 'thirteen.pt5', 'After dragging the lock onto the lock, the current route remained pt5');
 
-    /*
-    triggerMouseEvent(key, 'mousedown');
-    triggerMouseEvent(lock, 'mouseover');
-    triggerMouseEvent(key, 'mouseup');
-    */
-   testDrag(key, lock);
+    await key.dispatchEvent(new DragEvent('drag', {}));
+    await lock.dispatchEvent(new DragEvent('drop', {}));
 
-    console.log(currentRouteName());
-    await pauseTest();
-
+    assert.equal(currentRouteName(), 'thirteen.pt6', 'After dragging the key onto the lock, the current route chanegd to pt6')
   });
 });
