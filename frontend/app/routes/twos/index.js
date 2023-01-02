@@ -24,7 +24,7 @@ export default class TwosRoute extends Route {
   rng(min, max, numbersBeforeDecimal = -1) {
     return numbersBeforeDecimal == -1
       ? Math.floor(Math.random() * (max - min + 1) ) + min
-      : ((Math.random() * (max - min + 1)) + min) * (10^numbersBeforeDecimal);
+      : ((Math.random() * (max - min + 1))) * (10^(numbersBeforeDecimal));
   }
 
   assignmentCalculate(operator) {
