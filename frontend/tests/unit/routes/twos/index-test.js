@@ -1,8 +1,28 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'frontend/tests/helpers';
 
-function testRng(rngFunc, testFunc) {
-  
+function testRng(context, rngFunc, testFunc, testIterationcount, expected, message) {
+  // Min max inclusive!
+  let result = true;
+  let results = [];
+  for (let i = 0; i < testIterationcount; i++) {
+    let generatedValue = rngFunc();
+    results.push(generatedValue);
+    if (testFunc(generatedValue)) {
+      result = false;
+      results = generatedValue;
+      break;
+    }
+  }
+
+  expected = expected.replace("{0}", results.join(' | '));
+
+  context.pushResult({
+    result: result,
+    actual: rngFunc.toString(),
+    expected: expected,
+    message: `${message} ${expected}`
+  });
 }
 
 module('Unit | Route | twos/index', function (hooks) {
@@ -10,28 +30,24 @@ module('Unit | Route | twos/index', function (hooks) {
 
   test('rng', function(assert) {
     let twos = this.owner.lookup('route:twos.index');
-    assert.generatedValuesBetween = function(func, min, max, testIterationcount, message) {
-      // Min max inclusive!
-      let result = true;
-      let results = [];
-      for (let i = 0; i < testIterationcount; i++) {
-        let generatedValue = func();
-        results.push(generatedValue);
-        if (generatedValue < min || generatedValue > max) {
-          result = false;
-        }
+    assert.generatedValuesBetween = function(min, max, decimals=this.false, testIterationcount, message) {
+      let func;
+      if (!decimals) {
+        func = () => {return twos.rng(min, max) };
       }
-
-      this.pushResult({
-        result: result,
-        actual: func.toString(),
-        expected: `${min} < ${results.join('|')} < ${max}`,
-        message: `${message} (${min} < ${results.join('|')} < ${max})`
-      });
+      else {
+        func = () => {return twos.rng(min, max, decimals) };
+      }
+      testRng(this, func, (value) => {return value < min || max < value;}, testIterationcount, `${min} < {0} < ${max}`, message);
     }
+    /*
+    assert.correctDecimalAmount = function(func, min, max, testIterationcount) {
 
-    assert.generatedValuesBetween(() => {return twos.rng(0, 50)}, 0, 50, 100, 'rng generates whole numbers between two numbers');
-    assert.generatedValuesBetween(() => {return twos.rng(0, 50, 2)}, 0, 50, 100, 'rng generates decimal numbers between two numbers');
+    }
+    */
+
+    assert.generatedValuesBetween(0, 50, false, 100, 'rng generates whole numbers between two numbers');
+    assert.generatedValuesBetween(0, 50, 2, 100, 'rng generates decimal numbers between two numbers');
 
   });
 
