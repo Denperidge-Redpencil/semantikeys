@@ -18,13 +18,14 @@ export default class TwosRoute extends Route {
   currentAssignments = Tracked(this.newAssignments());
 
 
-
   // Imported & adapted from from https://www.w3schools.com/JS/js_random.asp
-  // max inclusive
+  // & https://stackoverflow.com/a/45736188
+  // min & max inclusive
   rng(min, max, numbersBeforeDecimal = -1) {
+    let decimalModifier = 10^numbersBeforeDecimal;
     return numbersBeforeDecimal == -1
       ? Math.floor(Math.random() * (max - min + 1) ) + min
-      : ((Math.random() * (max - min + 1))) * (10^(numbersBeforeDecimal));
+      : ((Math.random() * (max*decimalModifier - min*decimalModifier + 1) ) + min*decimalModifier) /decimalModifier
   }
 
   assignmentCalculate(operator) {
