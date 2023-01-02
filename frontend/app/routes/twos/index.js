@@ -22,7 +22,7 @@ export default class TwosRoute extends Route {
   // & https://stackoverflow.com/a/45736188
   // min & max inclusive
   rng(min, max, numbersBeforeDecimal = -1) {
-    let decimalModifier = 10^numbersBeforeDecimal;
+    let decimalModifier = Math.pow(10, numbersBeforeDecimal);
     return numbersBeforeDecimal == -1
       ? Math.floor(Math.random() * (max - min + 1) ) + min
       : ((Math.random() * (max*decimalModifier - min*decimalModifier + 1) ) + min*decimalModifier) /decimalModifier
